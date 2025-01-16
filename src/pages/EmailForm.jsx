@@ -1,4 +1,29 @@
 function EmailForm() {
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // Send data to Mailchimp
+    await fetch(form.action, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Redirect to the Typeform survey
+          window.location.href = "https://wn0lwsscu49.typeform.com/to/Oz0pRBTQ";
+        } else {
+          alert("Failed to subscribe. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+      });
+  };
+
   return (
     <div className="min-h-screen flex flex-col text-black">
       <main className="container mx-auto px-6 pt-12 flex-1 text-center">
@@ -27,16 +52,17 @@ function EmailForm() {
           <div className="flex flex-col my-12 md:flex-row justify-center mb-4">
             <input
               type="email"
-              autocapitalize="off"
-              autocorrect="off"
+              autoCapitalize="off"
+              autoCorrect="off"
               size="25"
               placeholder="Email Address"
               name="MERGE0"
               id="MERGE0"
               className="text-lg md:text-2xl placeholder:text-gray-400 placeholder:italic py-4
-                px-6 md:px-10 lg:py-6 lg:px-12 bg-white bg-opacity-10
+                px-6 md:px-10 lg:py-6 lg:px-12 bg-gradient-to-r from-[#bcffff] to-[#ffa9b0] bg-opacity-30
                 focus:bg-opacity-20 duration-150 rounded-full outline-none
                 md:rounded-tr-none md:rounded-br-none mb-4 md:mb-0"
+              required
             />
 
             <button
@@ -51,15 +77,13 @@ function EmailForm() {
 
           <div className="opacity-75 italic">
             By subscribing you agree with Fabricate AI's
-            <a href="termsOfService" className="hover:opacity-80 duration-150">
+            <p className="inline hover:opacity-80 duration-150">
               {" "}
-              Term's of Service
-            </a>{" "}
-            and
-            <a href="privacy" className="hover:opacity-80 duration-150">
-              {" "}
-              Privacy Policy.
-            </a>
+              Term's of Service and
+            </p>{" "}
+            <p className="inline hover:opacity-80 duration-150">
+              Privacy Policy
+            </p>
           </div>
         </form>
       </main>
@@ -67,7 +91,7 @@ function EmailForm() {
       <footer className="container mx-auto p-6 flex flex-col md:flex-row items-center justify-between">
         <p>Made with ❤️</p>
 
-        <div className="flex -mx-6">
+        <div className=" -mx-6 hidden">
           <a href="#" className="mx-3 hover:opacity-80 duration-150">
             About Us
           </a>
